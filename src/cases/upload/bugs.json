@@ -1,0 +1,132 @@
+[
+  {
+    "id": "UPL-01",
+    "element": "avatar",
+    "category": "validation",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "The photo accepts any file type and any size",
+    "hint": "The file picker filters by type, but is that the only guard? Try dropping a file instead.",
+    "explanation": "accept=\"image/*\" is only a suggestion for the file picker. Drag and drop bypasses it, and there is no check of the MIME type or of the 2 MB limit in the code."
+  },
+  {
+    "id": "UPL-02",
+    "element": "avatar",
+    "category": "ui",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "A non-square photo is stretched in the preview",
+    "hint": "Not every photo is a square. Try a landscape one.",
+    "explanation": "The preview has a fixed width and height but no object-fit: cover, so the image is squeezed to fit the circle."
+  },
+  {
+    "id": "UPL-03",
+    "element": "dropzone",
+    "category": "validation",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "The 10 MB limit is not enforced",
+    "hint": "The rules promise a size limit. Find a file that breaks it.",
+    "explanation": "The limit is converted to bytes with one extra * 1024, so it is really 10 GB. A large file passes without an error."
+  },
+  {
+    "id": "UPL-04",
+    "element": "dropzone",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Files with an upper-case extension are rejected: REPORT.PDF",
+    "hint": "Scanners and old cameras love shouting in file names.",
+    "explanation": "The extension is compared with endsWith('.pdf') without lowercasing the name, so .PDF, .JPG and .Png are reported as unsupported."
+  },
+  {
+    "id": "UPL-05",
+    "element": "file-name",
+    "category": "security",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "The file name is rendered as HTML (XSS)",
+    "hint": "A file name is user input too. What if it contains markup?",
+    "explanation": "The name is inserted with dangerouslySetInnerHTML, so renaming a file to <img src=x onerror=alert(1)> runs a script. The same works with a real file name on macOS or Linux."
+  },
+  {
+    "id": "UPL-06",
+    "element": "file-size",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "File sizes use the wrong unit: a 3 MB file shows as 3.0 KB",
+    "hint": "Compare the size in the list with what your file manager says.",
+    "explanation": "The size is divided by 1024 twice (megabytes) but labelled \"KB\"."
+  },
+  {
+    "id": "UPL-07",
+    "element": "progress",
+    "category": "logic",
+    "severity": "trivial",
+    "kind": "dynamic",
+    "title": "Upload progress ends at 105%",
+    "hint": "Watch the percentage closely until the upload finishes.",
+    "explanation": "Progress grows in steps of 7 and is never clamped to 100, so the last step overshoots."
+  },
+  {
+    "id": "UPL-08",
+    "element": "progress",
+    "category": "a11y",
+    "severity": "minor",
+    "kind": "static",
+    "title": "The progress bar is invisible to assistive technologies",
+    "hint": "How does a screen reader know how far the upload is?",
+    "explanation": "The bar is a plain div without role=\"progressbar\" and aria-valuenow, aria-valuemin, aria-valuemax."
+  },
+  {
+    "id": "UPL-09",
+    "element": "remove",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Removing one file removes every file with the same name",
+    "hint": "Upload the same file twice, then remove only one of the copies.",
+    "explanation": "Files are removed by name instead of by id, so all duplicates disappear together."
+  },
+  {
+    "id": "UPL-10",
+    "element": "limit",
+    "category": "validation",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "The 5 file limit can be exceeded by adding files in several batches",
+    "hint": "The limit works for one selection. What about the second one?",
+    "explanation": "Only the new selection is compared with the limit, files already in the list are not counted. 3 + 3 files are accepted."
+  },
+  {
+    "id": "UPL-11",
+    "element": "dropzone",
+    "category": "a11y",
+    "severity": "major",
+    "kind": "static",
+    "title": "Documents cannot be added with the keyboard",
+    "hint": "Put the mouse away and try to upload a document.",
+    "explanation": "The drop zone is a div with onClick, without role=\"button\" or tabindex, and the file input has display: none, so neither of them can be focused."
+  },
+  {
+    "id": "UPL-12",
+    "element": "submit",
+    "category": "logic",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "Save works while uploads are still in progress",
+    "hint": "Do not wait for the uploads to finish.",
+    "explanation": "The button is never disabled and the handler does not check progress, so unfinished files are reported as saved."
+  },
+  {
+    "id": "UPL-13",
+    "element": "limit",
+    "category": "text",
+    "severity": "trivial",
+    "kind": "static",
+    "title": "The counter says 10 files, the rules say 5",
+    "hint": "Two places on the page talk about the same limit.",
+    "explanation": "The counter is hardcoded as \"/ 10 files\" while the rules and the code limit the list to 5."
+  }
+]

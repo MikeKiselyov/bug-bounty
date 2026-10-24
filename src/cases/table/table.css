@@ -1,0 +1,152 @@
+.tbl-page {
+  background: #f5f7fb;
+  color: #1c2434;
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100%;
+}
+
+.tbl-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 16px;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e3e8f0;
+}
+
+.tbl-logo {
+  font-weight: 600;
+  color: #2952cc;
+  font-size: 18px;
+}
+
+.tbl-section {
+  color: #5a6478;
+  font-size: 14px;
+}
+
+.tbl-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tbl-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.tbl-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #5a6478;
+}
+
+.tbl-search {
+  flex: 1 1 240px;
+}
+
+.tbl-control input,
+.tbl-control select {
+  font: inherit;
+  font-size: 14px;
+  color: #1c2434;
+  padding: 10px 12px;
+  border: 1px solid #cfd7e4;
+  border-radius: 8px;
+  background: #ffffff;
+  min-height: 42px;
+  box-sizing: border-box;
+}
+
+.tbl-scroll {
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid #e3e8f0;
+  border-radius: 12px;
+}
+
+.tbl-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tbl-table th,
+.tbl-table td {
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 1px solid #eef1f6;
+  white-space: nowrap;
+}
+
+.tbl-table th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #5a6478;
+  background: #f8fafd;
+}
+
+.tbl-sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.tbl-sortable:hover {
+  color: #2952cc;
+}
+
+.tbl-th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tbl-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.tbl-empty {
+  text-align: center;
+  color: #5a6478;
+  padding: 28px 14px;
+}
+
+.tbl-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: #5a6478;
+}
+
+.tbl-pager {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tbl-pager button {
+  font: inherit;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #cfd7e4;
+  background: #ffffff;
+  color: #1c2434;
+  cursor: pointer;
+}
+
+.tbl-pager button:disabled {
+  color: #9aa3b5;
+  cursor: not-allowed;
+  background: #f3f5f9;
+}

@@ -1,0 +1,267 @@
+.cart-page {
+  background: #f4f1ea;
+  color: #1f2a24;
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100%;
+  padding-bottom: 32px;
+}
+
+.cart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 24px;
+  background: #1f3a2e;
+  color: #f4f1ea;
+}
+
+.cart-logo {
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+}
+
+.cart-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.cart-badge-count {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: #e9c46a;
+  color: #1f2a24;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 24px;
+  align-items: flex-start;
+}
+
+.cart-items {
+  overflow-x: auto;
+  flex: 999 1 420px;
+  min-width: 0;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.cart-title {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.cart-empty {
+  color: #5b665f;
+}
+
+.cart-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px 112px 80px auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-top: 1px solid #ece7dc;
+  font-size: 14px;
+}
+
+.cart-name {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.cart-price {
+  color: #5b665f;
+  text-align: right;
+}
+
+.cart-qty {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.cart-qty button {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #d8d1c2;
+  background: #ffffff;
+  color: #1f2a24;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-qty-value {
+  min-width: 24px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-line-total {
+  font-weight: 600;
+  text-align: right;
+}
+
+.cart-remove {
+  border: none;
+  background: transparent;
+  color: #a33a2a;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 4px;
+  text-decoration: underline;
+}
+
+.cart-summary {
+  flex: 1 1 260px;
+  min-width: 0;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cart-promo-banner {
+  margin: 0;
+  background: #fdf3d6;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.cart-promo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.cart-promo-row {
+  display: flex;
+  gap: 8px;
+}
+
+.cart-promo-row input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid #d8d1c2;
+  border-radius: 8px;
+}
+
+.cart-promo-row button {
+  font: inherit;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #1f3a2e;
+  background: #ffffff;
+  color: #1f3a2e;
+  cursor: pointer;
+}
+
+.cart-promo-ok {
+  color: #1f7a45;
+  font-size: 13px;
+}
+
+.cart-promo-error {
+  color: #a33a2a;
+  font-size: 13px;
+}
+
+.cart-lines {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.cart-lines div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cart-lines dt {
+  color: #5b665f;
+}
+
+.cart-lines dd {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.cart-total {
+  border-top: 1px solid #ece7dc;
+  padding-top: 10px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.cart-total dt {
+  color: #1f2a24;
+}
+
+.cart-note {
+  margin: 0;
+  font-size: 12px;
+  color: #5b665f;
+}
+
+.cart-primary {
+  font: inherit;
+  font-weight: 600;
+  min-height: 46px;
+  border: none;
+  border-radius: 10px;
+  background: #1f3a2e;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0 18px;
+}
+
+.cart-primary:hover {
+  background: #2c5141;
+}
+
+.cart-done {
+  margin: 24px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.cart-done h2 {
+  margin: 0;
+}
+
+.cart-done p {
+  margin: 0 0 8px;
+}

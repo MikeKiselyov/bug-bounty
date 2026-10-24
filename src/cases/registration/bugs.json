@@ -1,0 +1,122 @@
+[
+  {
+    "id": "REG-01",
+    "element": "email",
+    "category": "text",
+    "severity": "trivial",
+    "kind": "static",
+    "title": "Typo in the label: \"Email adress\"",
+    "hint": "Read every field label letter by letter.",
+    "explanation": "\"Address\" is missing a \"d\". Typos in the interface make the product look careless and erode trust."
+  },
+  {
+    "id": "REG-02",
+    "element": "email",
+    "category": "validation",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "Email accepts an address without a top-level domain (a@b)",
+    "hint": "Try an address with no dot after the @.",
+    "explanation": "The regex only checks for an @. An address like a@b is not deliverable, so the confirmation email never arrives."
+  },
+  {
+    "id": "REG-03",
+    "element": "password",
+    "category": "text",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "Hint says \"at least 6 characters\", the error says 8",
+    "hint": "Compare the hint under the password field with the error message.",
+    "explanation": "The hint and the error name different rules. The user cannot tell which one is real."
+  },
+  {
+    "id": "REG-04",
+    "element": "password",
+    "category": "validation",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "A 3-character password passes validation",
+    "hint": "Check the password length boundaries.",
+    "explanation": "The check is length < 3, while the requirement is at least 8 characters."
+  },
+  {
+    "id": "REG-05",
+    "element": "password",
+    "category": "security",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "The password is logged to the browser console in plain text",
+    "hint": "Open DevTools and submit the form.",
+    "explanation": "On submit the whole payload, password included, goes to console.log. Passwords must never end up in logs."
+  },
+  {
+    "id": "REG-06",
+    "element": "submit",
+    "category": "ui",
+    "severity": "trivial",
+    "kind": "static",
+    "title": "The \"Create account\" button is shifted right and out of line with the fields",
+    "hint": "Look at how the left edges of the form elements line up.",
+    "explanation": "The button has an extra margin-left: 13px, so its right edge sticks out of the form grid."
+  },
+  {
+    "id": "REG-07",
+    "element": "submit",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "A double click creates two accounts",
+    "hint": "What happens if you press the button several times while the request is in flight?",
+    "explanation": "The button is not disabled while submitting, and the duplicate check runs against a stale list. Every click creates an account."
+  },
+  {
+    "id": "REG-08",
+    "element": "phone",
+    "category": "a11y",
+    "severity": "minor",
+    "kind": "static",
+    "title": "The \"Phone\" label is not connected to its field",
+    "hint": "Click the name of every field.",
+    "explanation": "The label's for attribute points to an id that does not exist. Clicking the label does not focus the field and screen readers do not announce its name."
+  },
+  {
+    "id": "REG-09",
+    "element": "phone",
+    "category": "validation",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "Phone accepts letters and invalid numbers",
+    "hint": "Enter something into the phone field that is not a phone number.",
+    "explanation": "The field is only checked for being non-empty. The +375 number format is never validated."
+  },
+  {
+    "id": "REG-10",
+    "element": "birthdate",
+    "category": "validation",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "Date of birth accepts a date that does not exist (31/02)",
+    "hint": "Not every month has 31 days.",
+    "explanation": "The day is only checked against the 1-31 range, ignoring the month and leap years."
+  },
+  {
+    "id": "REG-11",
+    "element": "terms",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Sign-up succeeds without accepting the terms",
+    "hint": "Is the checkbox really required?",
+    "explanation": "The terms checkbox is never checked on submit, although sign-up is not allowed without consent."
+  },
+  {
+    "id": "REG-12",
+    "element": "name",
+    "category": "validation",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Real names with accents or apostrophes are rejected (José, O'Connor)",
+    "hint": "Not everyone's name fits into A-Z.",
+    "explanation": "The regex allows only the Latin letters A-Z. The service turns away users with perfectly normal names."
+  }
+]

@@ -1,0 +1,112 @@
+[
+  {
+    "id": "CART-01",
+    "element": "quantity",
+    "category": "validation",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Quantity can go down to zero and below",
+    "hint": "Keep pressing minus longer than seems reasonable.",
+    "explanation": "The counter has no lower bound. A negative quantity reduces the order total."
+  },
+  {
+    "id": "CART-02",
+    "element": "quantity",
+    "category": "a11y",
+    "severity": "minor",
+    "kind": "static",
+    "title": "The +/- buttons have no accessible name",
+    "hint": "What will a screen reader user hear on the quantity buttons?",
+    "explanation": "The buttons contain only SVG icons and no aria-label. A screen reader announces them as just \"button\"."
+  },
+  {
+    "id": "CART-03",
+    "element": "product",
+    "category": "ui",
+    "severity": "trivial",
+    "kind": "static",
+    "title": "A long product name overlaps the neighbouring columns",
+    "hint": "Look closely at the longest name in the list.",
+    "explanation": "The name has white-space: nowrap with no truncation or wrapping, so the text spills out of its column."
+  },
+  {
+    "id": "CART-04",
+    "element": "remove",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "\"Remove\" deletes the first item in the list, not the selected one",
+    "hint": "Remove an item that is not in the first row.",
+    "explanation": "The handler always removes the first array element instead of the item with the clicked id."
+  },
+  {
+    "id": "CART-05",
+    "element": "promo",
+    "category": "validation",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "The promo code is case-sensitive: sale10 is rejected",
+    "hint": "Type the promo code the way a normal person would.",
+    "explanation": "The code is compared strictly, without normalising the case. The user sees \"Promo code not found\" for a valid code."
+  },
+  {
+    "id": "CART-06",
+    "element": "promo",
+    "category": "logic",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "One promo code can be applied many times, discounts stack",
+    "hint": "How many times can you press \"Apply\"?",
+    "explanation": "Every apply adds another 10%. Ten clicks make the order free, after that the total goes negative."
+  },
+  {
+    "id": "CART-07",
+    "element": "subtotal",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "static",
+    "title": "The subtotal shows a floating point error (51.400000000000006 €)",
+    "hint": "Look closely at the number in the \"Items\" row.",
+    "explanation": "Money is summed as floats and shown without formatting. Count money in cents or round on output."
+  },
+  {
+    "id": "CART-08",
+    "element": "delivery",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "At exactly 50 € delivery is still charged, although it is free \"from 50 €\"",
+    "hint": "Build a cart worth exactly the threshold amount.",
+    "explanation": "The condition is subtotal > 50 instead of subtotal >= 50. A classic boundary value mistake."
+  },
+  {
+    "id": "CART-09",
+    "element": "total",
+    "category": "logic",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "The total does not include the delivery cost",
+    "hint": "Add up the summary rows by hand.",
+    "explanation": "Total = items - discount. Delivery is displayed but never added to the amount to pay."
+  },
+  {
+    "id": "CART-10",
+    "element": "checkout",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "An order can be placed with an empty cart",
+    "hint": "What happens if you remove everything and still press \"Checkout\"?",
+    "explanation": "Checkout does not check that the cart has items. An empty 0 € order is created."
+  },
+  {
+    "id": "CART-11",
+    "element": "badge",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "The cart counter in the header does not update after removing an item",
+    "hint": "Watch the shop header while changing the cart in different ways.",
+    "explanation": "The counter is recalculated only when the quantity changes. Removing an item does not touch it."
+  }
+]

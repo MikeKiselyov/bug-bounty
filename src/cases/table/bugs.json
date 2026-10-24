@@ -1,0 +1,116 @@
+[
+  {
+    "id": "TBL-01",
+    "element": "search",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Search is case-sensitive: \"Anna\" and \"anna\" find nothing",
+    "hint": "Search for any employee by their full first name.",
+    "explanation": "The query is lowercased, the names in the data are not. Only fragments without a capital letter match, like \"nna\"."
+  },
+  {
+    "id": "TBL-02",
+    "element": "search",
+    "alternateElements": ["empty"],
+    "category": "security",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "The search query is rendered as HTML (HTML injection / XSS)",
+    "hint": "What happens if you search for markup instead of text?",
+    "explanation": "The \"No results\" message is built as a string and inserted with innerHTML. A query like <img src=x onerror=alert(1)> runs a script."
+  },
+  {
+    "id": "TBL-03",
+    "element": "filter",
+    "alternateElements": ["empty"],
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "The department filter does not reset the page: the table is empty",
+    "hint": "Go to a later page, then change the department.",
+    "explanation": "The page number is kept after the filter changes. If the department has fewer rows, an empty page is shown."
+  },
+  {
+    "id": "TBL-04",
+    "element": "filter",
+    "category": "text",
+    "severity": "trivial",
+    "kind": "static",
+    "title": "Typo in the filter: \"Acounting\"",
+    "hint": "Read the list of departments in the filter.",
+    "explanation": "The dropdown is missing a \"c\", while the table spells the department correctly."
+  },
+  {
+    "id": "TBL-05",
+    "element": "sort-salary",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Sorting by salary compares strings",
+    "hint": "Sort by salary and compare neighbouring values of different length.",
+    "explanation": "Numbers are compared as strings, so 95000 ends up \"greater\" than 120000."
+  },
+  {
+    "id": "TBL-06",
+    "element": "sort-date",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Sorting by hire date orders by day, not by date",
+    "hint": "Sort by date and look at the years.",
+    "explanation": "Dates in DD/MM/YYYY format are compared as strings, so the order follows the day of the month."
+  },
+  {
+    "id": "TBL-07",
+    "element": "headers",
+    "alternateElements": ["sort-name", "sort-salary", "sort-date"],
+    "category": "ui",
+    "severity": "trivial",
+    "kind": "dynamic",
+    "title": "The sort arrow points the wrong way",
+    "hint": "Check the arrow direction against how the rows are actually sorted.",
+    "explanation": "Ascending sort draws a down arrow, descending sort draws an up arrow."
+  },
+  {
+    "id": "TBL-08",
+    "element": "headers",
+    "alternateElements": ["sort-name", "sort-salary", "sort-date"],
+    "category": "a11y",
+    "severity": "major",
+    "kind": "static",
+    "title": "Sorting is not available from the keyboard",
+    "hint": "Try to sort the table without a mouse.",
+    "explanation": "The click handler sits on a th with no button inside. The header cannot get focus, Enter and Space do nothing."
+  },
+  {
+    "id": "TBL-09",
+    "element": "counter",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "The \"of N\" counter shows the total number of records, ignoring filters",
+    "hint": "Compare the counter under the table before and after filtering.",
+    "explanation": "The range is computed from filtered data, the total comes from the full list."
+  },
+  {
+    "id": "TBL-10",
+    "element": "cells",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "One employee's salary shows as \"$null\"",
+    "hint": "Page through the whole table and look at the salary column.",
+    "explanation": "An empty salary is not handled and is formatted as a string. Show \"-\" or \"not set\" instead."
+  },
+  {
+    "id": "TBL-11",
+    "element": "pagination",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "The last page is unreachable: \"Next\" gets disabled too early",
+    "hint": "Walk to the end of the list with the \"Next\" button.",
+    "explanation": "The button is disabled at page >= pageCount - 1 instead of page >= pageCount, so the last page never opens."
+  }
+]

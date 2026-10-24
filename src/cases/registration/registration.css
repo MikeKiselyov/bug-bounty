@@ -1,0 +1,136 @@
+.reg-page {
+  background: #fff6ec;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: #2b1d14;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.reg-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 1px 0 #eadbc8, 0 12px 32px rgba(120, 70, 30, 0.08);
+}
+
+.reg-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reg-brand {
+  font-weight: 600;
+  font-size: 13px;
+  color: #c2410c;
+  letter-spacing: 0.04em;
+}
+
+.reg-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.reg-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #6b5444;
+}
+
+.reg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reg-field label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.reg-field input {
+  font: inherit;
+  font-size: 15px;
+  padding: 12px 14px;
+  border: 1px solid #e2d3c2;
+  border-radius: 10px;
+  color: #2b1d14;
+  background: #ffffff;
+}
+
+.reg-field input:focus {
+  outline: 2px solid #ea580c;
+  outline-offset: 1px;
+  border-color: #ea580c;
+}
+
+.reg-field input[aria-invalid='true'] {
+  border-color: #b91c1c;
+}
+
+.reg-hint {
+  font-size: 12px;
+  color: #6b5444;
+}
+
+.reg-error {
+  font-size: 13px;
+  color: #b91c1c;
+}
+
+.reg-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.reg-check input {
+  width: 18px;
+  height: 18px;
+  accent-color: #c2410c;
+}
+
+.reg-submit {
+  width: 100%;
+  margin-left: 13px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px;
+  min-height: 48px;
+  border: none;
+  border-radius: 10px;
+  background: #c2410c;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.reg-submit:hover {
+  background: #9a3412;
+}
+
+.reg-success {
+  background: #ecfdf3;
+  border: 1px solid #a7e3bf;
+  color: #14532d;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+.reg-success ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}

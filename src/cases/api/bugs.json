@@ -1,0 +1,122 @@
+[
+  {
+    "id": "API-01",
+    "element": "header",
+    "category": "security",
+    "severity": "critical",
+    "kind": "static",
+    "title": "GET /me returns passwordHash and resetToken",
+    "hint": "The page shows a few fields. Look at everything the server actually sent.",
+    "explanation": "The endpoint serialises the whole database row. The UI ignores the extra fields, but anyone with DevTools sees the password hash and a live password reset token."
+  },
+  {
+    "id": "API-02",
+    "element": "header",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "static",
+    "title": "\"Member since January 1970\"",
+    "hint": "Compare the date on the page with createdAt in the response.",
+    "explanation": "createdAt is a Unix timestamp in seconds, but it is passed to new Date() as milliseconds."
+  },
+  {
+    "id": "API-03",
+    "element": "role",
+    "category": "security",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "Any user can make themselves an admin (mass assignment)",
+    "hint": "Look at the body of the save request. Then send your own version of it from the Console.",
+    "explanation": "The client sends role in PUT /me and the server copies every known field from the body, role included. fetch('pulse-api/me', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ role: 'admin' }) }) is enough."
+  },
+  {
+    "id": "API-04",
+    "element": "orders",
+    "category": "security",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "Other users' orders are available by changing the id (IDOR)",
+    "hint": "There is a user id in one of the request URLs. Whose orders are behind the neighbouring id?",
+    "explanation": "GET /users/{id}/orders does not check that the id belongs to the current user. /users/1041/orders returns another customer's orders with a shipping address."
+  },
+  {
+    "id": "API-05",
+    "element": "orders",
+    "category": "logic",
+    "severity": "major",
+    "kind": "static",
+    "title": "Order totals are shown in cents: a monthly plan costs 999 €",
+    "hint": "Would you pay that much for a monthly subscription?",
+    "explanation": "The API returns amounts in cents (999 = 9.99 €), but the UI prints the raw number with a euro sign."
+  },
+  {
+    "id": "API-06",
+    "element": "email",
+    "category": "security",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "The error response leaks the SQL query and a stack trace",
+    "hint": "Save an email the server will not like, then read the response, not the message on the page.",
+    "explanation": "An invalid email returns 400 with a debug object: the raw UPDATE query with your input concatenated into it and server file paths. The UI only shows a generic error, so the leak is visible only in DevTools."
+  },
+  {
+    "id": "API-07",
+    "element": "status",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "\"Profile saved\" is shown when the server rejected the changes",
+    "hint": "The bio has a limit. Go over it and check what was really saved.",
+    "explanation": "A too long bio returns 200 with { ok: false, error }. The client checks only the HTTP status and reports success, while nothing was saved."
+  },
+  {
+    "id": "API-08",
+    "element": "save",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "One click on Save sends two PUT requests",
+    "hint": "Count the requests in the Network tab after one click.",
+    "explanation": "The button has an onClick handler that sends the request, and as a submit button it also fires the form's onSubmit, which sends it again."
+  },
+  {
+    "id": "API-09",
+    "element": "refresh",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Refresh shows stale data and sends no request",
+    "hint": "Save a change, then press Refresh and watch both the page and the Network tab.",
+    "explanation": "GET responses are kept in an in-memory cache that is never invalidated. After a save, Refresh returns the old profile from the cache without calling the API."
+  },
+  {
+    "id": "API-10",
+    "element": "avatar",
+    "category": "logic",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "\"Photo removed\" although the server answered 500",
+    "hint": "Remove the photo and check the response status.",
+    "explanation": "DELETE /me/avatar always fails with 500, but the client ignores the status and hides the photo. It comes back on the next load."
+  },
+  {
+    "id": "API-11",
+    "element": "bio",
+    "category": "a11y",
+    "severity": "minor",
+    "kind": "static",
+    "title": "The bio field has no label",
+    "hint": "What is this field called for a screen reader?",
+    "explanation": "The textarea has only a placeholder. It disappears on input and is not a reliable accessible name."
+  },
+  {
+    "id": "API-12",
+    "element": "name",
+    "category": "validation",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "An empty display name is accepted",
+    "hint": "What does the profile look like without a name?",
+    "explanation": "Neither the client nor the server checks that the name is not blank, so the profile header ends up empty."
+  }
+]

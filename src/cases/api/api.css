@@ -1,0 +1,270 @@
+.api-page {
+  background: #f6f5fb;
+  color: #201a33;
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100%;
+  padding-bottom: 32px;
+}
+
+.api-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.api-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 14px 24px;
+  background: #201a33;
+  color: #f1edff;
+}
+
+.api-logo {
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  color: #b9a6ff;
+}
+
+.api-nav {
+  display: flex;
+  gap: 18px;
+  font-size: 14px;
+  color: #b8b0d6;
+}
+
+.api-nav-active {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.api-layout {
+  max-width: 680px;
+  margin: 24px auto 0;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.api-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 1px 0 #e4e0f2, 0 10px 28px rgba(50, 30, 120, 0.06);
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.api-card-title {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.api-muted {
+  color: #6a6385;
+  font-size: 13px;
+  margin: 0;
+}
+
+.api-profile-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.api-avatar-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.api-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #7c5cff, #ff7ab6);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.api-avatar-empty {
+  background: #e4e0f2;
+}
+
+.api-profile-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.api-name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  min-height: 1.2em;
+}
+
+.api-role {
+  margin-top: 4px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #efeaff;
+  color: #5b3fd6;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.api-link {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #b42318;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.api-button-ghost {
+  border: 1px solid #d6d0ec;
+  background: #ffffff;
+  color: #201a33;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.api-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.api-form .api-card-title {
+  margin-bottom: 0;
+}
+
+.api-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.api-field label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.api-field input,
+.api-field textarea {
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 12px;
+  border: 1px solid #d6d0ec;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #201a33;
+  resize: vertical;
+}
+
+.api-field input:focus,
+.api-field textarea:focus {
+  outline: 2px solid #7c5cff;
+  outline-offset: 0;
+  border-color: #7c5cff;
+}
+
+.api-hint {
+  align-self: flex-end;
+  font-size: 12px;
+  color: #6a6385;
+}
+
+.api-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.api-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 20px;
+  background: #5b3fd6;
+  color: #ffffff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.api-status {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.api-status-pending {
+  color: #6a6385;
+}
+
+.api-status-success {
+  color: #1f7a4d;
+}
+
+.api-status-error {
+  color: #b42318;
+}
+
+.api-orders {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.api-orders th {
+  text-align: left;
+  font-weight: 500;
+  color: #6a6385;
+  font-size: 12px;
+  padding: 0 8px 8px 0;
+}
+
+.api-orders td {
+  padding: 10px 8px 10px 0;
+  border-top: 1px solid #eeebf6;
+}
+
+.api-number {
+  text-align: right;
+}
+
+.api-orders th.api-number,
+.api-orders td.api-number {
+  padding-right: 0;
+}
+
+.api-mono {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 12px;
+}
