@@ -112,5 +112,25 @@
     "title": "The last page is unreachable: \"Next\" gets disabled too early",
     "hint": "Walk to the end of the list with the \"Next\" button.",
     "explanation": "The button is disabled at page >= pageCount - 1 instead of page >= pageCount, so the last page never opens."
+  },
+  {
+    "id": "TBL-12",
+    "element": "cells",
+    "category": "security",
+    "severity": "critical",
+    "kind": "dynamic",
+    "title": "Every table page logs full employee records with personal data",
+    "hint": "The table shows five columns. Look in the Console: how many fields came with each row?",
+    "explanation": "The app logs the raw records of each page: personal phone, home address, passport number and bank account. The browser should only receive the fields it shows, and personal data must never go to logs."
+  },
+  {
+    "id": "TBL-13",
+    "element": "pagination",
+    "category": "ui",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "On wide screens Previous and Next swap places",
+    "hint": "Big monitors exist. How does the footer look at 1440px and wider?",
+    "explanation": "A wide-screen media query sets flex-direction: row-reverse on the pager, so \"Next\" is on the left and \"Previous\" on the right. Users click the wrong button out of habit."
   }
 ]

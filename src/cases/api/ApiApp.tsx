@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { API_BASE, onMockApiEvent, startMockApi } from './mockApi'
 import { useBugTrigger } from '../../lib/bugTrigger'
+import { useMediaQuery } from '../../lib/mediaQuery'
 import './api.css'
 
 // Planted bugs are marked with "BUG API-xx", most of them live in the mock backend: public/mock-api-sw.js.
 // Keep them when refactoring: the catalog in bugs.json depends on them.
 // trigger('API-xx') fires when a bug becomes observable.
+
+const SESSION_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwNDIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxOTI0OTkxOTk5fQ.Xq3v8dK2mR7pL0sT4wY9nB6cF1hJ5uE8aZ2gN7kV3oM'
 
 interface Profile {
   id: number
@@ -85,6 +88,15 @@ export function ApiApp() {
   const responseCacheRef = useRef(new Map<string, unknown>())
   const isProfileChangedRef = useRef(false)
   const trigger = useBugTrigger()
+  // Same query as in api.css.
+  const isPhone = useMediaQuery('(max-width: 600px)')
+
+  useEffect(() => {
+    if (isPhone && orders.length > 0) {
+      // BUG API-14: on phones the Status column is hidden, see .api-orders.
+      trigger('API-14')
+    }
+  }, [isPhone, orders, trigger])
 
   async function getCachedJson<T>(path: string): Promise<T> {
     const cache = responseCacheRef.current
@@ -159,10 +171,14 @@ export function ApiApp() {
     setStatus({ tone: 'pending', text: 'Saving...' })
     // BUG API-03: the client sends the role, and the server trusts it.
     const payload = { name: name, email: email, bio: bio, role: profile.role }
+    const headers = { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SESSION_TOKEN }
+    // BUG API-13: the request is logged with its headers, the session token included.
+    console.log('[pulse] PUT /me', { headers: headers, body: payload })
+    trigger('API-13')
     try {
       const response = await fetch(API_BASE + 'me', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: headers,
         body: JSON.stringify(payload),
       })
       const body = (await response.json()) as SaveResponse

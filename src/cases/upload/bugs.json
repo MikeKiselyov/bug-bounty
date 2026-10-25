@@ -6,7 +6,7 @@
     "severity": "major",
     "kind": "dynamic",
     "title": "The photo accepts any file type and any size",
-    "hint": "The file picker filters by type, but is that the only guard? Try dropping a file instead.",
+    "hint": "The rules promise a type and a size limit. Does anything enforce them besides the file picker? A big photo or a dropped file will tell.",
     "explanation": "accept=\"image/*\" is only a suggestion for the file picker. Drag and drop bypasses it, and there is no check of the MIME type or of the 2 MB limit in the code."
   },
   {
@@ -128,5 +128,25 @@
     "title": "The counter says 10 files, the rules say 5",
     "hint": "Two places on the page talk about the same limit.",
     "explanation": "The counter is hardcoded as \"/ 10 files\" while the rules and the code limit the list to 5."
+  },
+  {
+    "id": "UPL-14",
+    "element": "avatar",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "A PNG photo throws an uncaught error in the console",
+    "hint": "Pick a PNG or a screenshot as the photo and check the Console.",
+    "explanation": "EXIF data exists only in JPEG photos. For any other file readExif returns null, the code reads null.orientation and the promise rejects with \"Uncaught (in promise) TypeError\". The orientation is never applied."
+  },
+  {
+    "id": "UPL-15",
+    "element": "dropzone",
+    "category": "ui",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "On a phone in landscape the drop zone collapses",
+    "hint": "Turn the phone sideways, or make the window very short.",
+    "explanation": "For screens lower than 500px in landscape the drop zone gets a fixed height of 40px with overflow: hidden. Its text is cut and the area is hard to hit. Fixed heights break as soon as the content does not fit."
   }
 ]

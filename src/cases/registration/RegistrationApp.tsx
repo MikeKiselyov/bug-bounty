@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { useBugTrigger } from '../../lib/bugTrigger'
+import { useMediaQuery } from '../../lib/mediaQuery'
 import './registration.css'
 
 // Planted bugs are marked with "BUG REG-xx". Keep them when refactoring:
@@ -80,6 +81,18 @@ function validateBirthdate(value: string): string | null {
   return null
 }
 
+// Sends the birth year to analytics while the user types.
+function trackBirthYear(value: string, onInvalidDate: () => void) {
+  const parts = value.split('/')
+  const birthday = new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]))
+  if (Number.isNaN(birthday.getTime())) {
+    onInvalidDate()
+  }
+  // BUG REG-13: a half-typed date is an Invalid Date, toISOString throws "RangeError: Invalid time value".
+  const birthYear = birthday.toISOString().slice(0, 4)
+  console.info('[analytics] birth_year', birthYear)
+}
+
 function validate(values: FormValues, accounts: Account[]): FormErrors {
   const errors: FormErrors = {}
 
@@ -136,6 +149,15 @@ export function RegistrationApp() {
   const [pendingCount, setPendingCount] = useState(0)
   const createdEmails = useRef<string[]>([])
   const trigger = useBugTrigger()
+  // Same query as in registration.css.
+  const isNarrowPhone = useMediaQuery('(max-width: 480px)')
+
+  useEffect(() => {
+    if (isNarrowPhone) {
+      // BUG REG-14: on phones the terms label is cut off, see .reg-check label.
+      trigger('REG-14')
+    }
+  }, [isNarrowPhone, trigger])
 
   function updateField(field: keyof FormValues, value: string | boolean) {
     setValues({ ...values, [field]: value })
@@ -305,7 +327,10 @@ export function RegistrationApp() {
             inputMode="numeric"
             placeholder="DD/MM/YYYY"
             value={values.birthdate}
-            onChange={(event) => updateField('birthdate', event.target.value)}
+            onChange={(event) => {
+              updateField('birthdate', event.target.value)
+              trackBirthYear(event.target.value, () => trigger('REG-13'))
+            }}
             aria-invalid={errors.birthdate ? true : undefined}
             aria-describedby={describedBy('birthdate')}
           />
@@ -319,7 +344,7 @@ export function RegistrationApp() {
             checked={values.terms}
             onChange={(event) => updateField('terms', event.target.checked)}
           />
-          <label htmlFor="reg-terms">I agree to the terms of service</label>
+          <label htmlFor="reg-terms">I agree to the terms of service and the privacy policy</label>
         </div>
 
         {/* BUG REG-06: the button has an extra margin-left in registration.css. */}

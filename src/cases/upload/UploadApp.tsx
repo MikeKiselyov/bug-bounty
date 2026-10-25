@@ -14,6 +14,7 @@ import {
   nextProgress,
 } from './uploadRules'
 import { useBugTrigger } from '../../lib/bugTrigger'
+import { useMediaQuery } from '../../lib/mediaQuery'
 import './upload.css'
 
 // Planted bugs are marked with "BUG UPL-xx". Keep them when refactoring:
@@ -29,8 +30,21 @@ interface UploadedFile {
 const PROGRESS_INTERVAL_MS = 150
 const HTML_TAG_PATTERN = /<[a-z!/]/i
 
+interface ExifData {
+  orientation: number
+}
+
+// Only JPEG photos carry EXIF data.
+async function readExif(file: File): Promise<ExifData | null> {
+  if (file.type !== 'image/jpeg') {
+    return null
+  }
+  return { orientation: 1 }
+}
+
 export function UploadApp() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
+  const avatarOrientation = useRef(1)
   const [isAvatarDragOver, setIsAvatarDragOver] = useState(false)
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [errors, setErrors] = useState<string[]>([])
@@ -41,6 +55,15 @@ export function UploadApp() {
   const nextIdRef = useRef(1)
   const documentInputRef = useRef<HTMLInputElement>(null)
   const trigger = useBugTrigger()
+  // Same query as in upload.css.
+  const isShortLandscape = useMediaQuery('(orientation: landscape) and (max-height: 500px)')
+
+  useEffect(() => {
+    if (isShortLandscape) {
+      // BUG UPL-15: on a phone in landscape the drop zone collapses, see .upl-dropzone.
+      trigger('UPL-15')
+    }
+  }, [isShortLandscape, trigger])
 
   let isAnyUploading = false
   let isProgressOverflowing = false
@@ -93,6 +116,13 @@ export function UploadApp() {
       trigger('UPL-01')
     }
     setAvatarUrl(URL.createObjectURL(file))
+    // BUG UPL-14: null for a PNG or any non-JPEG file is not handled, the promise rejects uncaught.
+    readExif(file).then((exif) => {
+      if (exif === null) {
+        trigger('UPL-14')
+      }
+      avatarOrientation.current = exif!.orientation
+    })
   }
 
   function onAvatarChange(event: ChangeEvent<HTMLInputElement>) {
@@ -321,7 +351,7 @@ export function UploadApp() {
               ref={documentInputRef}
               type="file"
               multiple
-              accept=".pdf,.jpg,.png"
+              accept=".pdf,.jpg,.jpeg,.png"
               className="upl-hidden-input"
               onChange={onDocumentsChange}
             />

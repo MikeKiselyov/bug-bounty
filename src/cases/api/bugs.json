@@ -118,5 +118,25 @@
     "title": "An empty display name is accepted",
     "hint": "What does the profile look like without a name?",
     "explanation": "Neither the client nor the server checks that the name is not blank, so the profile header ends up empty."
+  },
+  {
+    "id": "API-13",
+    "element": "save",
+    "category": "security",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "Saving the profile logs the session token",
+    "hint": "Save the profile and read the Console, not only the Network tab.",
+    "explanation": "The client logs the whole request, headers included, so the Bearer token ends up in the console. Browser extensions, screen shares and error trackers that capture logs can steal the session. Never log credentials."
+  },
+  {
+    "id": "API-14",
+    "element": "orders",
+    "category": "ui",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "On phones the billing history hides the order status",
+    "hint": "Open billing history on a phone-sized screen. Can you tell a refund from a payment?",
+    "explanation": "Below 600px the Status column is hidden to save space, and the refunded Sticker pack looks like a normal payment. Responsive layouts may move data around, but must not drop information the user needs."
   }
 ]

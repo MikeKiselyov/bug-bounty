@@ -108,5 +108,25 @@
     "title": "The cart counter in the header does not update after removing an item",
     "hint": "Watch the shop header while changing the cart in different ways.",
     "explanation": "The counter is recalculated only when the quantity changes. Removing an item does not touch it."
+  },
+  {
+    "id": "CART-12",
+    "element": "promo",
+    "category": "security",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "The promo check logs every valid code, a staff 50% code included",
+    "hint": "Apply any promo code with the Console open. What else does the shop know?",
+    "explanation": "Each check runs console.log with the full list of valid codes. Anyone with DevTools finds the staff-only BARISTA50 and gets 50% off. Codes must be checked on the server and never shipped to the browser."
+  },
+  {
+    "id": "CART-13",
+    "element": "checkout",
+    "category": "ui",
+    "severity": "major",
+    "kind": "dynamic",
+    "title": "On tablets the Checkout button has no visible text",
+    "hint": "Shoppers use tablets too. Try a width between a phone and a laptop.",
+    "explanation": "A media query for 641-1024px sets the button text color to the button background. The button is still there, but it is an empty dark block, and the main action of the page is unreadable."
   }
 ]

@@ -9,6 +9,7 @@ export const uploadCase: CaseDefinition = {
   description: 'Avatar and documents: formats, sizes, limits and file names.',
   briefing:
     'Hireflow candidate profile. Requirements: the photo is an image up to 2 MB. Documents are PDF, JPG or PNG up to 10 MB each, at most 5 files in total. A document can be renamed by clicking its name. Save works only after every upload has finished. Bring a few files of your own: different formats, sizes, names and duplicates.',
+  note: 'Some bugs need specific files: a PDF over 10 MB, a file with an upper-case extension like REPORT.PDF, a non-image file. A desktop browser makes them easier to find.',
   level: 'senior',
   tags: ['upload', 'files', 'security'],
   url: 'hireflow.local/profile/documents',

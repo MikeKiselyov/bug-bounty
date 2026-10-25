@@ -118,5 +118,25 @@
     "title": "Real names with accents or apostrophes are rejected (José, O'Connor)",
     "hint": "Not everyone's name fits into A-Z.",
     "explanation": "The regex allows only the Latin letters A-Z. The service turns away users with perfectly normal names."
+  },
+  {
+    "id": "REG-13",
+    "element": "birthdate",
+    "category": "logic",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "Typing a date of birth throws errors in the console",
+    "hint": "Open DevTools and keep an eye on the Console while you type a date.",
+    "explanation": "An analytics call converts every keystroke into a date. A half-typed value like 1/0 is an Invalid Date, so toISOString throws \"RangeError: Invalid time value\". Uncaught errors in the console are bugs even when the UI looks fine: here the analytics event is never sent."
+  },
+  {
+    "id": "REG-14",
+    "element": "terms",
+    "category": "ui",
+    "severity": "minor",
+    "kind": "dynamic",
+    "title": "On phones the terms label is cut off",
+    "hint": "Read every label on a narrow phone screen. DevTools device mode works too.",
+    "explanation": "Below 480px the label gets white-space: nowrap and overflow: hidden, so \"I agree to the terms of service and the privacy policy\" ends mid-word. The user agrees to something they cannot read. Long labels must wrap."
   }
 ]

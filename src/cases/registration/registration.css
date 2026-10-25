@@ -134,3 +134,12 @@
   margin: 6px 0 0;
   padding-left: 18px;
 }
+
+/* BUG REG-14: on phones the label is forced into one line and cut off. */
+@media (max-width: 480px) {
+  .reg-check label {
+    white-space: nowrap;
+    overflow: hidden;
+    min-width: 0;
+  }
+}

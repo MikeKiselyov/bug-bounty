@@ -31,6 +31,8 @@ export interface CaseDefinition {
   title: string
   description: string
   briefing: string
+  // Optional practical warning shown under the briefing, e.g. what the case needs to be played.
+  note?: string
   level: Level
   tags: string[]
   url: string

@@ -4,6 +4,8 @@ import {
   INITIAL_ITEMS,
   PROMO_CODE,
   PROMO_PERCENT,
+  STAFF_PROMO_CODE,
+  STAFF_PROMO_PERCENT,
   FREE_DELIVERY_FROM,
   calculateDelivery,
   calculateSubtotal,
@@ -13,6 +15,7 @@ import {
 } from './cartMath'
 import type { CartItem } from './cartMath'
 import { useBugTrigger } from '../../lib/bugTrigger'
+import { useMediaQuery } from '../../lib/mediaQuery'
 import './cart.css'
 
 // Planted bugs are marked with "BUG CART-xx". Keep them when refactoring:
@@ -54,6 +57,15 @@ export function CartApp() {
   const delivery = calculateDelivery(subtotal)
   const total = calculateTotal(subtotal, discount, delivery)
   const trigger = useBugTrigger()
+  // Same query as in cart.css.
+  const isTablet = useMediaQuery('(min-width: 641px) and (max-width: 1024px)')
+
+  useEffect(() => {
+    if (isTablet && !placedOrder) {
+      // BUG CART-13: on tablets the checkout button text has the color of the button, see .cart-primary.
+      trigger('CART-13')
+    }
+  }, [isTablet, placedOrder, trigger])
 
   const subtotalInCents = Math.round(subtotal * 100)
   const isDeliveryCharged = delivery > 0
@@ -105,6 +117,14 @@ export function CartApp() {
     const code = promoInput.trim()
     if (code === '') {
       setPromoMessage({ ok: false, text: 'Enter a promo code' })
+      return
+    }
+    // BUG CART-12: every check logs the list of valid codes, the staff-only one included.
+    console.log('[promo] checking "' + code + '" against', [PROMO_CODE, STAFF_PROMO_CODE])
+    if (code === STAFF_PROMO_CODE) {
+      trigger('CART-12')
+      setDiscountPercent(discountPercent + STAFF_PROMO_PERCENT)
+      setPromoMessage({ ok: true, text: 'Promo code ' + STAFF_PROMO_CODE + ' applied' })
       return
     }
     // BUG CART-05: case-sensitive comparison.

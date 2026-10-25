@@ -43,7 +43,7 @@ export function BugCatalog({ bugs, foundIds, hintIds, answersShown }: BugCatalog
           }
 
           return (
-            <li key={bug.id} className="catalog-item">
+            <li key={bug.id} id={'catalog-' + bug.id} className="catalog-item">
               <span className="catalog-id">{bug.id}</span>
               {hasHint ? (
                 <span className="catalog-hint">

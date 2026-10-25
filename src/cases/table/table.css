@@ -150,3 +150,10 @@
   cursor: not-allowed;
   background: #f3f5f9;
 }
+
+/* BUG TBL-13: a wide-screen layout reverses the pager, "Next" ends up on the left. */
+@media (min-width: 1440px) {
+  .tbl-pager {
+    flex-direction: row-reverse;
+  }
+}

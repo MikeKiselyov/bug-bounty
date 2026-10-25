@@ -82,12 +82,19 @@ function wait(milliseconds) {
 }
 
 async function notifyPage(clientId, type) {
-  if (!clientId) {
-    return
+  const message = { source: 'pulse-api', type: type }
+  if (clientId) {
+    const client = await self.clients.get(clientId)
+    if (client) {
+      client.postMessage(message)
+      return
+    }
   }
-  const client = await self.clients.get(clientId)
-  if (client) {
-    client.postMessage({ source: 'pulse-api', type: type })
+  // A URL opened in the address bar (the only way on a phone) has no client yet,
+  // so every open page of the playground hears about it.
+  const windows = await self.clients.matchAll({ type: 'window' })
+  for (const windowClient of windows) {
+    windowClient.postMessage(message)
   }
 }
 

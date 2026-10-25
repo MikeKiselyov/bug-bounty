@@ -941,6 +941,18 @@ a.case-card:hover {
   max-width: 720px;
 }
 
+.case-note {
+  margin: 0;
+  max-width: 720px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--orange);
+  border-radius: 0 10px 10px 0;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+
 .case-progress {
   flex: 1 1 340px;
   min-width: 0;
@@ -1030,7 +1042,8 @@ a.case-card:hover {
 .browser {
   border: 1px solid var(--border);
   border-radius: 16px;
-  overflow: hidden;
+  /* clip, not hidden: hidden would make the frame a scroll container and break the sticky pin banner. */
+  overflow: clip;
   background: var(--surface);
 }
 
@@ -1400,12 +1413,45 @@ textarea.dark-input {
 }
 
 .pin-banner {
+  /* Sticky, so the way out of pin mode stays on screen while scrolling a long case on a phone. */
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--bg);
   background: var(--lime);
-  padding: 8px 16px;
+  padding: 6px 8px 6px 16px;
   font-weight: 700;
+}
+
+.pin-banner-cancel {
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--bg);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--bg);
+  font: inherit;
+  cursor: pointer;
+}
+
+.pin-banner-key {
+  opacity: 0.6;
+}
+
+@media (pointer: coarse) {
+  .pin-banner-cancel {
+    min-height: 44px;
+  }
+  .pin-banner-key {
+    display: none;
+  }
 }
 
 .pinner {
@@ -1423,6 +1469,8 @@ textarea.dark-input {
   position: absolute;
   inset: 0;
   z-index: 20;
+  /* The page still scrolls vertically, horizontal swipes are handled in BugPinner. */
+  touch-action: pan-y;
   cursor: crosshair;
   background: rgba(14, 15, 18, 0.06);
 }
@@ -1655,6 +1703,8 @@ textarea.dark-input {
   gap: 12px;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
   animation: feedback-in 200ms ease-out both;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
 }
 
 .tour-counter {
@@ -1748,4 +1798,33 @@ textarea.dark-input {
   .pin-highlight {
     transition: none;
   }
+}
+
+/* Phones */
+
+@media (max-width: 640px) {
+  /* iOS Safari zooms into any focused field with text under 16px, in the case apps too. */
+  input,
+  select,
+  textarea,
+  .dark-input,
+  textarea.dark-input {
+    font-size: 16px !important;
+  }
+}
+
+@media (pointer: coarse) {
+  .main-nav a,
+  .breadcrumbs a,
+  .link-button,
+  .btn-small,
+  .chip-small {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+[data-tour] {
+  scroll-margin-top: 16px;
 }

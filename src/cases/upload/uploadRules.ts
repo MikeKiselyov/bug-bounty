@@ -3,7 +3,7 @@
 export const MAX_FILES = 5
 export const MAX_FILE_SIZE_MB = 10
 export const AVATAR_MAX_SIZE_MB = 2
-export const ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.png']
+export const ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png']
 export const PROGRESS_STEP = 7
 
 const BYTES_IN_MEGABYTE = 1024 * 1024

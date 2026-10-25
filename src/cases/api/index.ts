@@ -9,6 +9,7 @@ export const apiCase: CaseDefinition = {
   description: 'Bugs that live in requests and responses: status codes, leaked fields, caching.',
   briefing:
     'Pulse profile settings. The backend is a mock API running in a service worker, so open DevTools: the Network tab shows every request to pulse-api, and the Console can send your own with fetch(). Requirements: the API returns only public profile fields, errors use proper status codes without internals, a user sees and changes only their own data, the role is managed by admins only, bio is at most 160 characters.',
+  note: 'Best on a desktop browser with DevTools. On a phone you will not see the requests, and some bugs need the Console. Request URLs can still be opened in a new tab.',
   level: 'senior',
   tags: ['api', 'devtools', 'security'],
   url: 'pulse.local/settings/profile',

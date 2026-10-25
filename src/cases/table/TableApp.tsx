@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useBugTrigger } from '../../lib/bugTrigger'
+import { useMediaQuery } from '../../lib/mediaQuery'
 import { DEPARTMENTS, EMPLOYEES } from './employees'
 import type { Employee } from './employees'
 import './table.css'
@@ -36,6 +37,17 @@ function compareEmployees(first: Employee, second: Employee, key: SortKey): numb
   return 0
 }
 
+// The full HR record as the backend stores it. The table shows only a few of these fields.
+function fullRecord(employee: Employee) {
+  return {
+    ...employee,
+    personalPhone: '+375 29 ' + (5550100 + employee.id * 37),
+    homeAddress: 10 + employee.id + ' Park Lane, ' + employee.city,
+    passportNumber: 'MP' + (3400000 + employee.id * 7919),
+    bankAccount: 'BY20 OLMP 3135 0000 0010 0000 ' + (1000 + employee.id),
+  }
+}
+
 function departmentLabel(department: string): string {
   // BUG TBL-04: typo in the filter option.
   if (department === 'Accounting') {
@@ -64,6 +76,15 @@ export function TableApp() {
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [page, setPage] = useState(1)
   const trigger = useBugTrigger()
+  // Same query as in table.css.
+  const isWideScreen = useMediaQuery('(min-width: 1440px)')
+
+  useEffect(() => {
+    if (isWideScreen) {
+      // BUG TBL-13: on wide screens "Previous" and "Next" swap places, see .tbl-pager.
+      trigger('TBL-13')
+    }
+  }, [isWideScreen, trigger])
 
   const normalizedQuery = query.trim().toLowerCase()
   const filtered: Employee[] = []
@@ -146,6 +167,22 @@ export function TableApp() {
     }
   }
   const isLastPageBlocked = pageCount > 1 && page === pageCount - 1
+
+  let pageIds = ''
+  for (const employee of pageRows) {
+    pageIds = pageIds + employee.id + ','
+  }
+
+  useEffect(() => {
+    const records = []
+    for (const employee of pageRows) {
+      records.push(fullRecord(employee))
+    }
+    // BUG TBL-12: every page of the table is logged with the full records: phones, addresses, passports.
+    console.log('[directory] page ' + page + ' loaded', records)
+    trigger('TBL-12')
+    // pageRows is rebuilt on every render, pageIds tells when the visible rows really change.
+  }, [pageIds, page, trigger])
 
   useEffect(() => {
     if (isSearchCaseMissed) trigger('TBL-01')

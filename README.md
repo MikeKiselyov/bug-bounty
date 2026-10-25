@@ -22,15 +22,21 @@ mark a bug in two clicks and get it verified automatically. No accounts, no back
 
 | Code    | Case               | Level  | Bugs | What you will practise                                             |
 | ------- | ------------------ | ------ | ---- | ------------------------------------------------------------------ |
-| CASE-01 | Sign-up form       | Junior | 12   | Field validation, boundaries, dates, copy, labels and focus        |
-| CASE-02 | Cart and checkout  | Middle | 11   | Money and rounding, quantities, promo codes, state after actions   |
-| CASE-03 | Table with filters | Middle | 11   | Search, sorting, pagination, empty states, HTML injection          |
-| CASE-04 | File upload        | Senior | 13   | Types and sizes, limits, duplicates, file names as input, progress |
-| CASE-05 | API: user profile  | Senior | 12   | DevTools: leaked fields, status codes, IDOR, mass assignment, cache |
+| CASE-01 | Sign-up form       | Junior | 14   | Field validation, boundaries, dates, copy, labels and focus        |
+| CASE-02 | Cart and checkout  | Middle | 13   | Money and rounding, quantities, promo codes, state after actions   |
+| CASE-03 | Table with filters | Middle | 13   | Search, sorting, pagination, empty states, HTML injection          |
+| CASE-04 | File upload        | Senior | 15   | Types and sizes, limits, duplicates, file names as input, progress |
+| CASE-05 | API: user profile  | Senior | 14   | DevTools: leaked fields, status codes, IDOR, mass assignment, cache |
 
 Coming next: login and 2FA, search with autocomplete. [Want to build one?](CONTRIBUTING.md)
 
 Every case has a short briefing with the requirements. A bug is anything that breaks them or common sense.
+
+Keep the DevTools **Console** open in every case: some bugs never show up on the page, only as uncaught errors
+or as data the app should not log. Mark them on the element you were using when they appeared.
+
+Change the screen size too. Some layout bugs live only on a phone, a tablet, a wide monitor or a phone in landscape.
+Resize the window or use the DevTools device toolbar. They count once the page was shown at that size.
 
 - **CASE-04** needs a few files of your own: different formats and sizes, an upper-case extension, the same file twice.
 - **CASE-05** runs its backend as a service worker, so requests are real and visible in the DevTools Network tab.
@@ -69,7 +75,7 @@ and **Miss**.
 
 ### Extras
 
-- 3 hints per case. Each one reveals a nudge towards a bug you have not found yet.
+- Unlimited hints. Each one reveals a nudge towards the next bug you have not found yet.
 - **Answers** reveals the whole catalog with explanations.
 - **Reset** clears progress for one case and restarts the app.
 - **Full report or keyboard only** - a classic report form with steps, for keyboard users and for practising write-ups.

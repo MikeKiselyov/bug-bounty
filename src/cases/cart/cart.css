@@ -70,6 +70,8 @@
 }
 
 .cart-row {
+  /* Wider than a phone on purpose: .cart-items scrolls horizontally instead of collapsing the name column. */
+  min-width: 640px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 72px 112px 80px auto;
   align-items: center;
@@ -264,4 +266,11 @@
 
 .cart-done p {
   margin: 0 0 8px;
+}
+
+/* BUG CART-13: the tablet theme override paints the text in the button color. */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .cart-primary {
+    color: #1f3a2e;
+  }
 }

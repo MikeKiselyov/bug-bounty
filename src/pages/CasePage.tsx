@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
-import { HINTS_PER_CASE } from '../config'
 import { BugTriggerContext } from '../lib/bugTrigger'
 import { CATEGORY_LABELS } from '../lib/labels'
 import { matchReport } from '../lib/matcher'
 import type { MatchResult } from '../lib/matcher'
+import { prefersReducedMotion } from '../lib/motion'
 import { isOnboardingSeen, markOnboardingSeen } from '../lib/onboarding'
 import { getCaseProgress, useCaseProgress } from '../lib/progress'
 import type { CaseDefinition, Category, Severity } from '../lib/types'
@@ -51,7 +51,7 @@ const TOUR_STEPS: TourStep[] = [
   {
     target: 'catalog',
     title: 'Catalog and hints',
-    text: 'Found bugs unlock here with an explanation of why they are bugs. Stuck? Take a hint, there are three per case. You can also peek at all the answers.',
+    text: 'Found bugs unlock here with an explanation of why they are bugs. Stuck? Take a hint, as many as you need: each one points to the next bug you have not found. You can also peek at all the answers.',
   },
   {
     target: 'progress',
@@ -66,6 +66,7 @@ export function CasePage({ definition }: { definition: CaseDefinition }) {
   const [isPinning, setIsPinning] = useState(false)
   const [attempts, setAttempts] = useState<Attempt[]>([])
   const [isTourOpen, setIsTourOpen] = useState(false)
+  const [lastHintId, setLastHintId] = useState<string | null>(null)
   const App = definition.App
 
   useEffect(() => {
@@ -83,7 +84,6 @@ export function CasePage({ definition }: { definition: CaseDefinition }) {
 
   const foundCount = progress.found.length
   const totalBugs = definition.bugs.length
-  const hintsLeft = HINTS_PER_CASE - progress.hints.length
 
   let nextHintBugId: string | null = null
   for (const bug of definition.bugs) {
@@ -94,7 +94,8 @@ export function CasePage({ definition }: { definition: CaseDefinition }) {
       break
     }
   }
-  const canTakeHint = hintsLeft > 0 && nextHintBugId !== null && !progress.answersShown
+  // Hints are unlimited: one per bug, until every unfound bug has one.
+  const canTakeHint = nextHintBugId !== null && !progress.answersShown
 
   function labelForElement(elementId: string): string {
     for (const element of definition.elements) {
@@ -129,7 +130,19 @@ export function CasePage({ definition }: { definition: CaseDefinition }) {
       return
     }
     update({ hints: [...progress.hints, nextHintBugId] })
+    setLastHintId(nextHintBugId)
   }
+
+  // On a phone the catalog is far below the Hint button, so bring the new hint into view.
+  useEffect(() => {
+    if (lastHintId === null) {
+      return
+    }
+    const hintItem = document.getElementById('catalog-' + lastHintId)
+    if (hintItem) {
+      hintItem.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+    }
+  }, [lastHintId])
 
   function showAnswers() {
     const confirmed = window.confirm('Reveal all bugs in this case? Bugs you found stay counted.')
@@ -174,6 +187,7 @@ export function CasePage({ definition }: { definition: CaseDefinition }) {
             </div>
             <h1 className="case-title">{definition.title}</h1>
             <p className="case-briefing">{definition.briefing}</p>
+            {definition.note ? <p className="case-note">{definition.note}</p> : null}
           </div>
 
           <div className="case-progress" data-tour="progress">
@@ -197,7 +211,7 @@ export function CasePage({ definition }: { definition: CaseDefinition }) {
             <div className="case-actions">
               <button type="button" className="btn btn-dark btn-grow" onClick={takeHint} disabled={!canTakeHint}>
                 <BulbIcon />
-                Hint · {Math.max(0, hintsLeft)}
+                Hint
               </button>
               <button type="button" className="btn btn-ghost" onClick={() => setIsTourOpen(true)}>
                 How to play
@@ -244,12 +258,15 @@ export function CasePage({ definition }: { definition: CaseDefinition }) {
                   data-tour="pin"
                 >
                   <CrosshairIcon />
-                  {isPinning ? 'Cancel · Esc' : 'Mark a bug'}
+                  {isPinning ? 'Cancel' : 'Mark a bug'}
                 </button>
               </div>
               {isPinning ? (
-                <div className="pin-banner" role="status">
-                  Hover over the buggy element and click it
+                <div className="pin-banner">
+                  <span role="status">Click or tap the buggy element</span>
+                  <button type="button" className="pin-banner-cancel" onClick={() => setIsPinning(false)}>
+                    Cancel <span className="pin-banner-key">Esc</span>
+                  </button>
                 </div>
               ) : null}
               <div className="browser-body">

@@ -257,6 +257,7 @@
 
 .api-number {
   text-align: right;
+  white-space: nowrap;
 }
 
 .api-orders th.api-number,
@@ -265,6 +266,15 @@
 }
 
 .api-mono {
+  white-space: nowrap;
   font-family: 'JetBrains Mono', ui-monospace, monospace;
   font-size: 12px;
+}
+
+/* BUG API-14: the "compact" phone table drops the Status column, a refund looks like a payment. */
+@media (max-width: 600px) {
+  .api-orders th:nth-child(3),
+  .api-orders td:nth-child(3) {
+    display: none;
+  }
 }

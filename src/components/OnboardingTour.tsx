@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { prefersReducedMotion } from '../lib/motion'
 
 export interface TourStep {
   // Value of a data-tour attribute on the page; null shows the step centered.
@@ -25,10 +26,6 @@ const MARGIN = 16
 const GAP = 16
 const SPOTLIGHT_PADDING = 8
 const NARROW_SCREEN = 760
-
-function prefersReducedMotion(): boolean {
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
 
 function clamp(value: number, min: number, max: number): number {
   if (max < min) {
@@ -101,7 +98,12 @@ export function OnboardingTour({ steps, open, onClose }: OnboardingTourProps) {
       return
     }
     const targetElement = target
-    targetElement.scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
+    // On a phone the card sits at the bottom, so the target goes to the top instead of the center.
+    let scrollBlock: ScrollLogicalPosition = 'center'
+    if (window.innerWidth < NARROW_SCREEN) {
+      scrollBlock = 'start'
+    }
+    targetElement.scrollIntoView({ block: scrollBlock, behavior: prefersReducedMotion() ? 'auto' : 'smooth' })
 
     function measure() {
       setRect(targetElement.getBoundingClientRect())

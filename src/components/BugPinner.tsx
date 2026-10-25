@@ -30,6 +30,15 @@ interface Toast {
   id: number
 }
 
+// A touch swipe in pin mode lands on the overlay, so horizontal scrolling is done by hand.
+interface TouchPan {
+  startX: number
+  startY: number
+  scroller: HTMLElement | null
+  startScrollLeft: number
+  moved: boolean
+}
+
 interface BugPinnerProps {
   active: boolean
   elements: CaseElement[]
@@ -38,7 +47,8 @@ interface BugPinnerProps {
   children: ReactNode
 }
 
-const POPOVER_HEIGHT = 230
+const POPOVER_HEIGHT = 270
+const TAP_SLOP_PX = 10
 const POPOVER_MAX_WIDTH = 330
 const TOAST_DURATION_MS = 5000
 
@@ -49,6 +59,7 @@ export function BugPinner({ active, elements, onSubmit, onExit, children }: BugP
   const [hover, setHover] = useState<Hover | null>(null)
   const [selection, setSelection] = useState<Selection | null>(null)
   const [toast, setToast] = useState<Toast | null>(null)
+  const touchPanRef = useRef<TouchPan | null>(null)
 
   useEffect(() => {
     if (!active) {
@@ -126,6 +137,49 @@ export function BugPinner({ active, elements, onSubmit, onExit, children }: BugP
     return null
   }
 
+  function findHorizontalScroller(clientX: number, clientY: number): HTMLElement | null {
+    const body = bodyRef.current
+    if (!body) {
+      return null
+    }
+    const stack = document.elementsFromPoint(clientX, clientY)
+    for (const candidate of stack) {
+      if (candidate === overlayRef.current || !body.contains(candidate)) {
+        continue
+      }
+      let current: HTMLElement | null = candidate instanceof HTMLElement ? candidate : null
+      while (current && current !== body) {
+        const overflowX = window.getComputedStyle(current).overflowX
+        const canScroll = overflowX === 'auto' || overflowX === 'scroll'
+        if (canScroll && current.scrollWidth > current.clientWidth) {
+          return current
+        }
+        current = current.parentElement
+      }
+      return null
+    }
+    return null
+  }
+
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
+    if (event.pointerType !== 'touch') {
+      touchPanRef.current = null
+      return
+    }
+    const scroller = findHorizontalScroller(event.clientX, event.clientY)
+    let startScrollLeft = 0
+    if (scroller) {
+      startScrollLeft = scroller.scrollLeft
+    }
+    touchPanRef.current = {
+      startX: event.clientX,
+      startY: event.clientY,
+      scroller,
+      startScrollLeft,
+      moved: false,
+    }
+  }
+
   function boxFor(element: HTMLElement): Box {
     const body = bodyRef.current
     const elementRect = element.getBoundingClientRect()
@@ -142,6 +196,18 @@ export function BugPinner({ active, elements, onSubmit, onExit, children }: BugP
   }
 
   function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+    const touchPan = touchPanRef.current
+    if (touchPan && event.pointerType === 'touch') {
+      const deltaX = event.clientX - touchPan.startX
+      const deltaY = event.clientY - touchPan.startY
+      if (Math.abs(deltaX) > TAP_SLOP_PX || Math.abs(deltaY) > TAP_SLOP_PX) {
+        touchPan.moved = true
+      }
+      if (touchPan.scroller) {
+        touchPan.scroller.scrollLeft = touchPan.startScrollLeft - deltaX
+      }
+      return
+    }
     if (selection) {
       return
     }
@@ -154,6 +220,11 @@ export function BugPinner({ active, elements, onSubmit, onExit, children }: BugP
   }
 
   function handleClick(event: MouseEvent<HTMLDivElement>) {
+    const touchPan = touchPanRef.current
+    touchPanRef.current = null
+    if (touchPan && touchPan.moved) {
+      return
+    }
     const body = bodyRef.current
     const marked = findMarkedElement(event.clientX, event.clientY)
     if (!body || !marked || !marked.dataset.bh) {
@@ -202,6 +273,7 @@ export function BugPinner({ active, elements, onSubmit, onExit, children }: BugP
         <div
           ref={overlayRef}
           className="pin-overlay"
+          onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerLeave={() => setHover(null)}
           onClick={handleClick}

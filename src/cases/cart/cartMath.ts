@@ -19,6 +19,9 @@ export const INITIAL_ITEMS: CartItem[] = [
 
 export const PROMO_CODE = 'SALE10'
 export const PROMO_PERCENT = 10
+// Staff-only code, never shown to customers.
+export const STAFF_PROMO_CODE = 'BARISTA50'
+export const STAFF_PROMO_PERCENT = 50
 export const DELIVERY_PRICE = 4.9
 export const FREE_DELIVERY_FROM = 50
 
